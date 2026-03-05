@@ -27,13 +27,7 @@
         default = mnw.lib.wrap pkgs {
           neovim = pkgs.neovim-unwrapped;
           extraBinPath = with pkgs; [lazygit];
-          initLua =
-            # lua
-            ''
-              require("base")
-              require("utility")
-              require("languages.nix")
-            '';
+          initLua = builtins.readFile ./nvim/init.lua;
           plugins = {
             start = with pkgs.vimPlugins; [
               neovim-ayu
@@ -43,7 +37,7 @@
               todo-comments-nvim
               snacks-nvim
             ];
-            dev.myconfig.pure = ./config;
+            dev.config.pure = ./nvim;
           };
         };
       }
