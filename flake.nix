@@ -24,37 +24,11 @@
       system: let
         pkgs = nixpkgsFor.${system};
 
-        vimPlugins = with pkgs.vimPlugins; [
-          neovim-ayu
-          mini-nvim
-          oil-nvim
-          gitsigns-nvim
-          todo-comments-nvim
-          snacks-nvim
-          nvim-lspconfig
-          lualine-nvim
-          bufferline-nvim
-
-          # Completion
-          blink-cmp
-          luasnip
-          friendly-snippets
-        ];
+        vimPlugins = import ./nix/plugins.nix {inherit pkgs;};
       in {
         default = mnw.lib.wrap pkgs {
           neovim = pkgs.neovim-unwrapped;
-          extraBinPath = with pkgs; [
-            # General
-            lazygit
-
-            # Nix
-            nil
-            nixd
-            alejandra
-
-            # Lua
-            luajitPackages.lua-lsp
-          ];
+          extraBinPath = import ./nix/binPath.nix {inherit pkgs;};
           initLua = builtins.readFile ./nvim/init.lua;
           plugins = {
             start = vimPlugins;
