@@ -4,4 +4,6 @@ require("utility.snacks.lazygit")
 require("snacks").setup({
     picker  = { enabled = true },
     lazygit = { enabled = true },
+    indent = { enabled = true },
+    scroll = { enabled = true},
 })
