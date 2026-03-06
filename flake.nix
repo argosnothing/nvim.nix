@@ -32,6 +32,8 @@
           todo-comments-nvim
           snacks-nvim
           nvim-lspconfig
+          lualine-nvim
+          bufferline-nvim
         ];
       in {
         default = mnw.lib.wrap pkgs {
