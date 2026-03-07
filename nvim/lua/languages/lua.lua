@@ -1,6 +1,5 @@
 local lsp = require("languages.lsp")
 
--- Lua LSP — for editing this config
 vim.lsp.config("lua_ls", {
 	cmd = { "lua-language-server" },
 	capabilities = lsp.capabilities,
@@ -9,10 +8,8 @@ vim.lsp.config("lua_ls", {
 			runtime = { version = "LuaJIT" },
 			workspace = {
 				checkThirdParty = false,
-				library = vim.api.nvim_get_runtime_file("", true),
+				library = { vim.env.VIMRUNTIME },
 			},
-			diagnostics = { globals = { "vim" } },
-			telemetry = { enable = false },
 		},
 	},
 })
