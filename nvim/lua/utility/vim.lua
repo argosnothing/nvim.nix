@@ -1,5 +1,7 @@
 local opt = vim.opt
 
+opt.scrollback = 10000
+
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
