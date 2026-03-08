@@ -2,42 +2,19 @@ vim.cmd("packadd nvim-lspconfig")
 require("languages.lsp")
 
 -- Load language configs only when that filetype is opened
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "lua",
-	once = true,
-	callback = function()
-		require("languages.lua")
-	end,
-})
+local function language(name, pattern)
+	pattern = pattern or name
+	vim.api.nvim_create_autocmd("FileType", {
+		pattern = pattern,
+		once = true,
+		callback = function()
+			require("languages." .. name)
+		end,
+	})
+end
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "nix",
-	once = true,
-	callback = function()
-		require("languages.nix")
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "python",
-	once = true,
-	callback = function()
-		require("languages.python")
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "nu",
-	once = true,
-	callback = function()
-		require("languages.nu")
-	end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "json",
-	once = true,
-	callback = function()
-		require("languages.json")
-	end,
-})
+language("lua")
+language("nix")
+language("python", "py")
+language("nu")
+language("json")
