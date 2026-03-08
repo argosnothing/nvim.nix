@@ -15,4 +15,7 @@ with pkgs; [
   # Python
   basedpyright
   ruff
+
+  # Json
+  vscode-json-languageserver
 ]

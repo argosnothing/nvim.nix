@@ -36,6 +36,7 @@
           tree-sitter-nix
           tree-sitter-python
           tree-sitter-nu
+          tree-sitter-json
         ]))
     ];
 }

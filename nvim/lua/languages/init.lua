@@ -33,3 +33,11 @@ vim.api.nvim_create_autocmd("FileType", {
 		require("languages.nu")
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "json",
+	once = true,
+	callback = function()
+		require("languages.json")
+	end,
+})
