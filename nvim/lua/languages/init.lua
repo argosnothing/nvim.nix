@@ -25,3 +25,11 @@ vim.api.nvim_create_autocmd("FileType", {
 		require("languages.python")
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "nu",
+	once = true,
+	callback = function()
+		require("languages.nu")
+	end,
+})

@@ -35,6 +35,7 @@
           tree-sitter-lua
           tree-sitter-nix
           tree-sitter-python
+          tree-sitter-nu
         ]))
     ];
 }
