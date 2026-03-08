@@ -32,7 +32,7 @@ jobs:
       - name: Check spelling with typos
         run: nix run nixpkgs#typos -- -c .config/typos.toml .
       - name: Check lua with Selene
-        run: nix run nixpkgs#selene -- --config .config/selene nvim/
+        run: nix run nixpkgs#selene -- --config .config/selene.toml nvim/
       - name: Check formatting with treefmt
         run: |
           nix shell .#buildEnv --run \
