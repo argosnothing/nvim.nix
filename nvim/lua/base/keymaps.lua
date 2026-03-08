@@ -29,3 +29,10 @@ map("n", "<C-l>", "<C-w>l")
 -- Move lines
 map("v", "J", ":m '>+1<cr>gv=gv")
 map("v", "K", ":m '<-2<cr>gv=gv")
+
+-- Overridden Binds
+-- These will be overwritten by something else, and exist just for information
+-- like to inform that a certain plugin hasn't been loaded yet
+vim.keymap.set("n", "<M-d>", function()
+	vim.notify("DAP has not yet been loaded yet.")
+end)

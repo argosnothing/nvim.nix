@@ -1,5 +1,9 @@
+local M = {}
+
 local dap = require("dap")
 local dapui = require("dapui")
+
+local dapui_open = false
 
 -- ── DAP-UI setup + auto open/close ──────────────────────────────────────────
 
@@ -29,15 +33,18 @@ dapui.setup({
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
+	dapui_open = true
 end
 -- On session end, close only the sidebar (layout 1) but keep the bottom
 -- console/repl panel (layout 2) open so print() output persists.
 -- Use <leader>du to dismiss it when you're done.
 dap.listeners.before.event_terminated["dapui_config"] = function()
 	dapui.close()
+	dapui_open = false
 end
 dap.listeners.before.event_exited["dapui_config"] = function()
 	dapui.close()
+	dapui_open = false
 end
 
 -- ── Breakpoint signs ─────────────────────────────────────────────────────────
@@ -58,6 +65,17 @@ vim.api.nvim_set_hl(0, "DapLogPoint", { fg = "#61afef" })
 vim.api.nvim_set_hl(0, "DapBreakpointRejected", { fg = "#5c6370" })
 vim.api.nvim_set_hl(0, "DapStopped", { fg = "#98c379" })
 vim.api.nvim_set_hl(0, "DapStoppedLine", { bg = "#2e3b28" })
+
+-- ── Public API ───────────────────────────────────────────────────────────────
+
+--- Close DAP UI if it is currently open.
+--- Safe to call even when DAP UI is already closed.
+M.close_ui = function()
+	if dapui_open then
+		dapui.close()
+		dapui_open = false
+	end
+end
 
 -- ── Keymaps ──────────────────────────────────────────────────────────────────
 
@@ -94,5 +112,15 @@ map("n", "<leader>dp", function()
 end, "Evaluate Expression")
 
 -- UI & REPL
-map("n", "<leader>du", dapui.toggle, "Toggle DAP UI")
+map({ "n", "t" }, "<M-d>", function()
+	if dapui_open then
+		M.close_ui()
+	else
+		require("utility.terminal").close()
+		dapui.open()
+		dapui_open = true
+	end
+end, "Toggle DAP UI")
 map("n", "<leader>dr", dap.repl.toggle, "Toggle REPL")
+
+return M

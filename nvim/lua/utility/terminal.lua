@@ -1,3 +1,5 @@
+local M = {}
+
 local terminal_buf = nil
 local terminal_win = nil
 
@@ -9,12 +11,26 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
-vim.keymap.set({ "n", "t" }, "<M-t>", function()
+--- Close the terminal window without entering insert mode.
+--- Safe to call even if the terminal is already closed.
+M.close = function()
 	if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
 		vim.api.nvim_win_close(terminal_win, true)
 		terminal_win = nil
-		vim.cmd("startinsert")
+	end
+end
+
+local function toggle()
+	-- Terminal is visible: hide it
+	if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+		vim.api.nvim_win_close(terminal_win, true)
+		terminal_win = nil
 		return
+	end
+
+	-- Terminal is hidden: close DAP UI first (if loaded), then open terminal
+	if package.loaded["dap"] then
+		require("utility.dap_config").close_ui()
 	end
 
 	if terminal_buf and vim.api.nvim_buf_is_valid(terminal_buf) then
@@ -26,12 +42,17 @@ vim.keymap.set({ "n", "t" }, "<M-t>", function()
 		vim.cmd("botright split")
 		vim.cmd("resize 15")
 		vim.cmd("terminal")
-		vim.opt_local.buflisted = false -- Don't register this particular terminal as a buffer in the list
+		vim.opt_local.buflisted = false
 		terminal_buf = vim.api.nvim_get_current_buf()
 		terminal_win = vim.api.nvim_get_current_win()
 	end
-	vim.cmd("startinsert")
-end)
 
--- Escape in terminal mode now returns to normal mode
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+	vim.cmd("startinsert")
+end
+
+vim.keymap.set({ "n", "t" }, "<M-t>", toggle, { silent = true, desc = "Terminal: Toggle" })
+
+-- Escape in terminal mode returns to normal mode
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { silent = true })
+
+return M
