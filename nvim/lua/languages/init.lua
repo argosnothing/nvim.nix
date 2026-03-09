@@ -1,5 +1,6 @@
 vim.cmd("packadd nvim-lspconfig")
 require("languages.lsp")
+require("languages.tree-sitter")
 
 -- Load language configs only when that filetype is opened
 local function language(name, pattern)

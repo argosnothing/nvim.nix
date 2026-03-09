@@ -1,5 +1,5 @@
 local lsp = require("languages.lsp")
-local dap = require("nvim.lua.utility.dap_config")
+local dap = require("utility.dap_config")
 local dap_python = require("dap-python")
 
 -- ── LSP ──────────────────────────────────────────────────────────────────────
