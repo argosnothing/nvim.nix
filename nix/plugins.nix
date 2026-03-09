@@ -45,6 +45,13 @@
           tree-sitter-python
           tree-sitter-nu
           tree-sitter-json
+          tree-sitter-bash
+          tree-sitter-go
+          tree-sitter-json
+          tree-sitter-rust
+          tree-sitter-markdown
+          tree-sitter-diff
+          tree-sitter-yang
         ]))
     ];
 }
