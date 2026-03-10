@@ -1,5 +1,7 @@
 local lsp = require("languages.lsp")
 local dap = require("utility.dap_config")
+
+vim.cmd("packadd nvim-dap-python")
 local dap_python = require("dap-python")
 
 -- ── LSP ──────────────────────────────────────────────────────────────────────

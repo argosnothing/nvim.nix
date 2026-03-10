@@ -16,6 +16,6 @@ end
 
 language("lua")
 language("nix")
-language("python", "py")
+language("python")
 language("nu")
 language("json")
