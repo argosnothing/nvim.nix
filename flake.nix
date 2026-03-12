@@ -32,6 +32,7 @@
         nvim = self.packages.${system}.default;
         # Where the main package is actually configured
         default = mnw.lib.wrap pkgs {
+          aliases = ["vi" "vim" "nv"];
           extraBinPath = import ./nix/binPath.nix {inherit pkgs;};
           initLua = builtins.readFile ./nvim/init.lua;
           plugins = {
