@@ -5,7 +5,7 @@ vim.keymap.set("n", "<C-o>", function()
         view_options = { show_hidden = true },
         keymaps = {
             ["q"] = "actions.close",
-            ["<C-o>"] = "actions.close",
+            ["<C-o>"] = "actions.parent",
         },
     })
     -- Replace stub with direct call so subsequent uses skip setup
