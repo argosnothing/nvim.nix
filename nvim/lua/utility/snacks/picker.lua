@@ -1,12 +1,12 @@
 require("snacks")
 local picker = Snacks.picker
 local function bind_picker(bind, func, desc, import)
-	if import ~= nil then
-		require(import)
-	end
-	vim.keymap.set("n", bind, function()
-		func()
-	end, { desc = desc })
+    if import ~= nil then
+        require(import)
+    end
+    vim.keymap.set("n", bind, function()
+        func()
+    end, { desc = desc })
 end
 
 -- Files
@@ -15,6 +15,11 @@ bind_picker("<leader>f", picker.files, "Find files")
 bind_picker("<leader>r", picker.recent, "Recent files")
 bind_picker("<leader>e", picker.explorer, "File Explorer")
 bind_picker("<leader>q", picker, "Browse Pickers")
+bind_picker("<leader>pp", picker.projects, "Projects")
+bind_picker("<leader>pf", picker.files, "Project Files")
+bind_picker("<leader>pg", picker.grep, "Project Grep")
+bind_picker("<leader>pb", picker.buffers, "Project Buffers")
+bind_picker("<leader>pr", picker.recent, "Project Recent")
 
 -- Search
 bind_picker("<leader>/", picker.grep, "Grep")

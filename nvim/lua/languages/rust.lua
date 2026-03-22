@@ -7,4 +7,11 @@ vim.lsp.config("rust_analyzer", {
     capabilities = lsp.capabilities,
 })
 
-vim.lsp.enable("rust_analyzer")
+vim.api.nvim_create_autocmd("User", {
+    pattern = "DirenvLoaded",
+    once = true,
+    callback = function()
+        vim.lsp.enable("rust_analyzer")
+        vim.cmd("doautoall FileType rust")
+    end,
+})

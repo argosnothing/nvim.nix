@@ -5,14 +5,12 @@ require("mini.cursorword").setup()
 require("mini.notify").setup()
 require("mini.comment").setup()
 
-require("mini.sessions").setup({
-    autowrite = true,
-})
-
 local starter = require("mini.starter")
 starter.setup({
     items = {
-        starter.sections.sessions(5, true),
+        { name = "Projects", action = "lua Snacks.picker.projects()", section = "Actions" },
+        { name = "Recent Files", action = "lua Snacks.picker.recent()", section = "Actions" },
+        { name = "Find Files", action = "lua Snacks.picker.files()", section = "Actions" },
         starter.sections.builtin_actions(),
     },
 })

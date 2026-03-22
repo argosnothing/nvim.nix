@@ -25,6 +25,7 @@ in {
       nvim-dap
       rose-pine
       cord-nvim
+      direnv-vim
       ;
 
     treesitter =

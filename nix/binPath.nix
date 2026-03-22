@@ -1,7 +1,7 @@
 {pkgs}:
 with pkgs; [
-  # General
   lazygit
+  fd
 
   # Nix
   nil
