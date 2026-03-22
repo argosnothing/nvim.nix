@@ -13,16 +13,31 @@ dap.adapters.lldb = {
 
 dap.configurations.rust = {
     {
-        name = "Launch",
+        name = "Debug",
         type = "lldb",
         request = "launch",
         program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+            vim.fn.system("cargo build 2>&1")
+            local cwd = vim.fn.getcwd()
+            local bins = vim.fn.glob(cwd .. "/target/debug/*", false, true)
+            bins = vim.tbl_filter(function(f)
+                return vim.fn.isdirectory(f) == 0 and vim.fn.getfperm(f):match("^r.x") and not f:match("%.")
+            end, bins)
+            if #bins == 1 then
+                return bins[1]
+            end
+            if #bins > 1 then
+                local choice
+                vim.ui.select(bins, { prompt = "Select binary:" }, function(selected)
+                    choice = selected
+                end)
+                return choice
+            end
+            return vim.fn.input("Binary: ", cwd .. "/target/debug/", "file")
         end,
         cwd = "${workspaceFolder}",
         stopOnEntry = false,
         args = {},
-        runInTerminal = false,
     },
 }
 
@@ -104,36 +119,26 @@ local map = function(mode, lhs, rhs, desc)
     vim.keymap.set(mode, lhs, rhs, { silent = true, desc = "DAP: " .. desc })
 end
 
--- Session control
-map("n", "<F5>", dap.continue, "Continue / Start")
-map("n", "<S-F5>", dap.terminate, "Terminate")
-map("n", "<F9>", dap.restart, "Restart")
-map("n", "<F10>", dap.step_over, "Step Over")
-map("n", "<F11>", dap.step_into, "Step Into")
-map("n", "<F12>", dap.step_out, "Step Out")
+map("n", "<leader>dc", dap.continue, "Continue / Start")
+map("n", "<leader>dn", dap.step_over, "Next (Step Over)")
+map("n", "<leader>di", dap.step_into, "Step Into")
+map("n", "<leader>do", dap.step_out, "Step Out")
+map("n", "<leader>dt", dap.terminate, "Terminate")
+map("n", "<leader>dr", dap.restart, "Restart")
+map("n", "<leader>dk", dap.run_to_cursor, "Run to Cursor")
 
--- Breakpoints
 map("n", "<leader>b", dap.toggle_breakpoint, "Toggle Breakpoint")
 map("n", "<leader>B", function()
     dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
 end, "Conditional Breakpoint")
-map("n", "<leader>lp", function()
-    dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-end, "Log Point")
 map("n", "<leader>bc", dap.clear_breakpoints, "Clear All Breakpoints")
 
--- Navigation
-map("n", "<leader>rc", dap.run_to_cursor, "Run to Cursor")
-
--- Inspection
 map("n", "<leader>dh", dapui.eval, "Hover / Evaluate")
 map("v", "<leader>dh", dapui.eval, "Evaluate Selection")
-map("n", "<leader>dp", function()
+map("n", "<leader>de", function()
     dapui.eval(vim.fn.input("Expression: "))
 end, "Evaluate Expression")
-
--- UI & REPL
-map({ "n", "t" }, "<M-d>", function()
+map({ "n", "t" }, "<leader>du", function()
     if dapui_open then
         M.close_ui()
     else
@@ -142,6 +147,5 @@ map({ "n", "t" }, "<M-d>", function()
         dapui_open = true
     end
 end, "Toggle DAP UI")
-map("n", "<leader>dr", dap.repl.toggle, "Toggle REPL")
 
 return M
