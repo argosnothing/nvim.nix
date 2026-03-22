@@ -25,3 +25,5 @@ opt.swapfile = false
 
 opt.updatetime = 250
 opt.timeoutlen = 300
+
+vim.g.direnv_silent_load = 1
