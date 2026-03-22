@@ -10,9 +10,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
-        map("gd", vim.lsp.buf.definition, "Go to Definition")
-        map("gD", vim.lsp.buf.declaration, "Go to Declaration")
-        map("gr", vim.lsp.buf.references, "References")
+        map("gd", function()
+            Snacks.picker.lsp_definitions()
+        end, "Go to Definition")
+        map("gD", function()
+            Snacks.picker.lsp_declarations()
+        end, "Go to Declaration")
+        map("gr", function()
+            Snacks.picker.lsp_references()
+        end, "References")
         map("K", vim.lsp.buf.hover, "Hover Docs")
         map("<leader>k", vim.lsp.buf.hover, "Hover Docs")
         map("<leader>rn", vim.lsp.buf.rename, "Rename")
