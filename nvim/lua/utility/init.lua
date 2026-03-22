@@ -10,6 +10,7 @@ require("utility.avante")
 require("utility.flash")
 require("utility.cord")
 require("utility.snacks")
+require("utility.gitlink")
 
 -- Lazy load gitsigns and to-do
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
