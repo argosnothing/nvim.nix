@@ -16,6 +16,9 @@ with pkgs; [
   basedpyright
   ruff
 
+  # Rust
+  rust-analyzer
+
   # Json
   vscode-json-languageserver
 ]
