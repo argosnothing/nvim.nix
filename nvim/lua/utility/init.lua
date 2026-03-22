@@ -7,6 +7,7 @@ require("utility.terminal")
 require("utility.vim")
 require("utility.whichkey")
 require("utility.avante")
+require("utility.flash")
 require("utility.cord")
 require("utility.snacks")
 

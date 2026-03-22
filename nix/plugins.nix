@@ -38,6 +38,7 @@ in {
 
     # Navigation
     oil-nvim
+    hop-nvim
 
     # UI
     gitsigns-nvim
