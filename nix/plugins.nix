@@ -18,10 +18,13 @@ in {
       (pkgs.vimPlugins)
       mini-nvim
       snacks-nvim
+      which-key-nvim
       neovim-ayu
       luasnip
       friendly-snippets
       nvim-dap
+      rose-pine
+      cord-nvim
       ;
 
     treesitter =
@@ -42,6 +45,9 @@ in {
 
     # Completion
     blink-cmp
+
+    # AI
+    avante-nvim
 
     # Debug
     nvim-dap-ui

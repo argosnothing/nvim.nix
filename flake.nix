@@ -1,5 +1,5 @@
 {
-  description = "Michael's Nvim Flake";
+  description = "Argos's Nvim Flake";
 
   inputs = {
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
@@ -11,14 +11,16 @@
     nixpkgs,
     mnw,
   }: let
-    forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
+    forAllSystems = nixpkgs.lib.genAttrs [
+      "x86_64-linux"
+      "aarch64-linux"
+      "aarch64-darwin"
+    ];
     nixpkgsFor = forAllSystems (system: import nixpkgs {inherit system;});
   in {
-    devShells = forAllSystems (
-      system: {
-        default = import ./shell.nix {pkgs = nixpkgsFor.${system};};
-      }
-    );
+    devShells = forAllSystems (system: {
+      default = import ./shell.nix {pkgs = nixpkgsFor.${system};};
+    });
 
     packages = forAllSystems (
       system: let
@@ -32,7 +34,11 @@
         nvim = self.packages.${system}.default;
         # Where the main package is actually configured
         default = mnw.lib.wrap pkgs {
-          aliases = ["vi" "vim" "nv"];
+          aliases = [
+            "vi"
+            "vim"
+            "nv"
+          ];
           extraBinPath = import ./nix/binPath.nix {inherit pkgs;};
           initLua = builtins.readFile ./nvim/init.lua;
           plugins = {
