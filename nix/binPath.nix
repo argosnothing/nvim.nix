@@ -18,6 +18,7 @@ with pkgs; [
 
   # Rust
   rust-analyzer
+  lldb
 
   # Json
   vscode-json-languageserver
