@@ -8,6 +8,8 @@ pkgs.mkShellNoCC {
     [(import ./nix/buildEnv.nix {inherit pkgs;})]
     ++ extraPkgs;
 
+  # Note to myself for pushing config
+  # git config url."git@github.com:".pushInsteadOf "https://github.com/"
   shellHook = ''
     lefthook install
     git fetch
